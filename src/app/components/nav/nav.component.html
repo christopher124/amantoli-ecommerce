@@ -34,10 +34,18 @@
       <div class="d-flex align-items-center order-lg-3">
         <ul class="nav nav-tools flex-nowrap">
           <li class="nav-item d-lg-block d-none mb-0">
-            <a [routerLink]="['/login']" class="nav-tool">
-              <i class="cxi-profile nav-tool-icon"></i>
-              <span class="nav-tool-label">Iniciar sesión</span>
-            </a>
+            <ng-container *ngIf="user_lc == undefined">
+              <a [routerLink]="['/login']" class="nav-tool">
+                <i class="cxi-profile nav-tool-icon"></i>
+                <span class="nav-tool-label">Iniciar sesión</span>
+              </a>
+            </ng-container>
+            <ng-container *ngIf="user_lc">
+              <a class="nav-tool">
+                <i class="cxi-profile nav-tool-icon"></i>
+                <span class="nav-tool-label">{{ user_lc.nombres }}</span>
+              </a>
+            </ng-container>
           </li>
           <li class="divider-vertical mb-0 d-lg-block d-none"></li>
           <li class="nav-item align-self-center mb-0">
@@ -86,7 +94,13 @@
         <!-- Menu -->
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="index.html" class="nav-link active">Home</a>
+            <a
+              [routerLink]="['/']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="nav-link"
+              >Inicio</a
+            >
           </li>
           <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"
