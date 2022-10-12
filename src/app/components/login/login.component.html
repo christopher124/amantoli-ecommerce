@@ -20,25 +20,29 @@
             Sign in to your account using email and password provided during
             registration.
           </p>
-          <form>
+          <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
             <div class="form-group">
-              <label for="signin-email">Email</label>
+              <label for="signin-email">Correo electrónico</label>
               <input
                 type="email"
                 class="form-control"
-                placeholder="Your email address"
+                placeholder="Correo electrónico"
                 required=""
+                name="email"
+                [(ngModel)]="user.email"
               />
             </div>
             <div class="form-group">
-              <label for="signin-password" class="form-label">Password</label>
+              <label for="signin-password" class="form-label">Contraseña</label>
               <div class="cs-password-toggle input-group-overlay">
                 <input
                   type="password"
                   class="form-control appended-form-control"
                   id="signin-password"
-                  placeholder="Your password"
+                  placeholder="Tu contraseña"
                   required=""
+                  name="password"
+                  [(ngModel)]="user.password"
                 />
                 <div class="input-group-append-overlay">
                   <label class="btn cs-password-toggle-btn input-group-text">
