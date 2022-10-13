@@ -3,6 +3,8 @@ import { ModuleWithProviders } from '@angular/core';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { PerfilComponent } from './components/usuario/perfil/perfil.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const appRoute: Routes = [
   {
@@ -12,6 +14,11 @@ const appRoute: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'cuenta/perfil',
+    component: PerfilComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'registro',
