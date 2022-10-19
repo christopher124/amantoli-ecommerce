@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { AuthGuard } from './guards/auth.guard';
+import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 
 const appRoute: Routes = [
   {
@@ -15,14 +16,23 @@ const appRoute: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+
+  {
+    path: 'registro',
+    component: RegisterComponent,
+  },
   {
     path: 'cuenta/perfil',
     component: PerfilComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'registro',
-    component: RegisterComponent,
+    path: 'productos',
+    component: IndexProductoComponent,
+  },
+  {
+    path: 'productos/categoria/:categoria',
+    component: IndexProductoComponent,
   },
 ];
 
