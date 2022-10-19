@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { routing } from './app.routing';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,15 +15,27 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { SiderbarComponent } from './components/usuario/siderbar/siderbar.component';
+import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 
 @NgModule({
-  declarations: [AppComponent, InicioComponent, NavComponent, FooterComponent, LoginComponent, RegisterComponent, PerfilComponent, SiderbarComponent],
+  declarations: [
+    AppComponent,
+    InicioComponent,
+    NavComponent,
+    FooterComponent,
+    LoginComponent,
+    RegisterComponent,
+    PerfilComponent,
+    SiderbarComponent,
+    IndexProductoComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     routing,
+    NgbPaginationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
