@@ -371,7 +371,10 @@
             >
               <div class="card card-product mx-auto">
                 <div class="card-product-img">
-                  <a href="shop-single.html" class="card-img-top">
+                  <a
+                    [routerLink]="['/productos/', item.slug]"
+                    class="card-img-top"
+                  >
                     <img
                       [src]="url + 'obtener_portada/' + item.portada"
                       alt="Product image"
@@ -398,9 +401,12 @@
                 </div>
                 <div class="card-body pb-2">
                   <h3 class="card-product-title text-truncate mb-2">
-                    <a href="shop-single.html" class="nav-link">{{
-                      item.titulo
-                    }}</a>
+                    <a
+                      [routerLink]="['/productos/', item.slug]"
+                      routerLinkActive="router-link-active"
+                      class="nav-link"
+                      >{{ item.titulo }}</a
+                    >
                   </h3>
                   <div class="d-flex align-items-center">
                     <span class="h5 d-inline-block mb-0"
@@ -484,3 +490,4 @@
     </div>
   </section>
 </main>
+<app-footer></app-footer>
