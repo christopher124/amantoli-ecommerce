@@ -1,0 +1,48 @@
+:root {
+    --dark: #16191c;
+    --dark-x: #1e2126;
+    --light: #fff;
+}
+
+/* Color login */
+/* .bg-amantoli{
+    background-color: aqua;
+} */
+section{
+     font-family: 'League Spartan', sans-serif;
+     font-family: 'Noto Sans', sans-serif;
+     font-weight: 300;
+}
+.bg-dark-x{
+    background-color:  #1e2126;
+}
+.form-control, .btn{
+    min-height: 3.125rem;
+    line-height: initial;
+}
+.img-1{
+    background-image: url("../../../assets/img/sliderA.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.img-2{
+    background-image: url("../../../assets/img/slider.4.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.img-3{
+    background-image: url("../../../assets/img/slider3.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.carousel-control-prev{
+    background-color: #1e2126;
+    opacity: 0.1;
+}
+.carousel-control-next{
+    background-color: #1e2126;
+    opacity: 0.1;
+}
+.font-size{
+    font-size: larger;
+}
