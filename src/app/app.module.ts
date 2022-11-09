@@ -17,6 +17,8 @@ import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { SiderbarComponent } from './components/usuario/siderbar/siderbar.component';
 import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 import { ShowProductoComponent } from './components/productos/show-producto/show-producto.component';
+import { CarritoComponent } from './components/carrito/carrito.component';
+import { DireccionesComponent } from './components/usuario/direcciones/direcciones.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { ShowProductoComponent } from './components/productos/show-producto/show
     SiderbarComponent,
     IndexProductoComponent,
     ShowProductoComponent,
+    CarritoComponent,
+    DireccionesComponent,
   ],
   imports: [
     BrowserModule,
