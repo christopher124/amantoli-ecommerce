@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { GLOBAL } from 'src/app/services/GLOBAL';
 import { GuestService } from 'src/app/services/guest.service';
+import { io } from 'socket.io-client';
 declare var tns: any;
 declare var lightGallery: any;
+declare var iziToast: any;
 @Component({
   selector: 'app-show-producto',
   templateUrl: './show-producto.component.html',
@@ -14,11 +17,21 @@ export class ShowProductoComponent implements OnInit {
   public producto: any = {};
   public url;
   public productos_rec: Array<any> = [];
+  public carrito_data: any = {
+    variedad: '',
+    cantidad: 1,
+  };
+  public token;
+  public btn_cart = false;
+  public socket = io('http://localhost:4201');
+
   constructor(
     private _route: ActivatedRoute,
-    private _guestService: GuestService
+    private _guestService: GuestService,
+    private _clienteService: ClienteService
   ) {
     this.url = GLOBAL.url;
+    this.token = localStorage.getItem('token');
     this._route.params.subscribe((params) => {
       this.slug = params['slug'];
 
@@ -104,5 +117,64 @@ export class ShowProductoComponent implements OnInit {
         },
       });
     }, 500);
+  }
+
+  agregar_producto() {
+    if (this.carrito_data.variedad) {
+      if (this.carrito_data.cantidad <= this.producto.stock) {
+        let data = {
+          producto: this.producto._id,
+          cliente: localStorage.getItem('_id'),
+          cantidad: this.carrito_data.cantidad,
+          variedad: this.carrito_data.variedad,
+        };
+        this.btn_cart = true;
+        this._clienteService
+          .agregar_carrito_cliente(data, this.token)
+          .subscribe(
+            (res) => {
+              if (res.data == undefined) {
+                iziToast.show({
+                  title: 'ERROR',
+                  class: 'text-danger',
+                  titleColor: '#ff0000',
+                  position: 'topRight',
+                  message: 'El producto ya existe en el carrito.',
+                });
+                this.btn_cart = false;
+              } else {
+                console.log(res);
+
+                iziToast.show({
+                  title: 'SUCCESS',
+                  class: 'text-success',
+                  titleColor: '#1DC74C',
+                  position: 'topRight',
+                  message: 'Se agrego el producto al carrito.',
+                });
+                this.socket.emit('add-carrito-add', { data: true });
+                this.btn_cart = false;
+              }
+            },
+            (err) => {}
+          );
+      } else {
+        iziToast.show({
+          title: 'ERROR',
+          class: 'text-danger',
+          titleColor: '#ff0000',
+          position: 'topRight',
+          message: 'La maxima cantidad disponible es: ' + this.producto.stock,
+        });
+      }
+    } else {
+      iziToast.show({
+        title: 'ERROR',
+        class: 'text-danger',
+        titleColor: '#ff0000',
+        position: 'topRight',
+        message: 'Seleccione una vaierdad de producto.',
+      });
+    }
   }
 }
