@@ -7,7 +7,7 @@
 />
 <app-nav></app-nav>
 <main class="cs-page-wrapper">
-  <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+  <nav class="bg-secondary mb-0" aria-label="breadcrumb">
     <div class="container">
       <ol class="breadcrumb breadcrumb-alt mb-0">
         <li class="breadcrumb-item">
@@ -21,7 +21,7 @@
   <section class="bg-white">
     <div class="row g-0">
       <!-- Caruusel -->
-      <div class="col-lg-7 d-none d-lg-block pt-lg-1 mb-lg-3">
+      <div class="col-lg-7 d-none d-lg-block pt-lg-0">
         <div
           id="carouselExampleIndicators"
           class="carousel slide"
@@ -63,7 +63,7 @@
       </div>
       <!-- Parte derecha formulario -->
       <div class="col-lg-5 d-flex flex-column align-items-end min-vh-100">
-        <div class="px-lg-5 pt-lg-4 pb-lg-1 p-4 w-100 text-center mb-auto">
+        <div class="px-lg-5 pt-lg-4 pb-lg-1 p-4 w-100 text-center mb-20">
           <img
             src="../../../assets/img/AMANTOLI1.png"
             alt="LogoAmantoli"
@@ -71,7 +71,7 @@
           />
         </div>
         <div class="px-lg-5 py-lg-1 p-4 w-100 align-self-center">
-          <h1 class="font-weight-bold mb-4 text-center">¡Bienvenido!</h1>
+          <h1 class="font-weight-bold mb-4 mt-1 text-center">¡Bienvenido!</h1>
           <form class="mb-5" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
             <div class="mb-4">
               <label
@@ -114,16 +114,16 @@
               Iniciar Sesión
             </button>
           </form>
-        </div>
-        <div class="text-center px-lg-5 pt-lg-1 pb-lg-6 p-4 w-100 mt-10">
-          <p class="d-inline-block mb-0">
-            ¿No tienes una cuenta?
-            <a
-              [routerLink]="['/registro']"
-              class="font-weight-bold text-decoration-none"
-              >Registrate</a
-            >
-          </p>
+          <div class="text-center px-lg-5 pt-lg-2 pb-lg-2 p-1 w-100">
+            <p class="d-inline-block mb-0">
+              ¿No tienes una cuenta?
+              <a
+                [routerLink]="['/registro']"
+                class="font-weight-bold text-decoration-none"
+                >Registrate</a
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
