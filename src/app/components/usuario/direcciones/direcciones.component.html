@@ -1,0 +1,136 @@
+<app-nav></app-nav>
+<main class="cs-page-wrapper">
+  <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb breadcrumb-alt mb-0">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/']" routerLinkActive="router-link-active"
+            ><i class="cxi-home"></i
+          ></a>
+        </li>
+        <li class="breadcrumb-item">
+          <a>Cuenta</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Mis direcciones
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+  <section class="container pt-3 pt-lg-4 pb-5 pb-lg-6">
+    <div class="row pb-2 pb-lg-0">
+      <!-- Account menu (sticky sidebar) -->
+
+      <aside class="col-xl-3 col-lg-4 pb-3 mb-4 mb-lg-0">
+        <app-siderbar></app-siderbar>
+      </aside>
+
+      <!-- Content -->
+      <div class="col-lg-8 ml-auto">
+        <div
+          class="d-flex align-items-center justify-content-between mb-4 pb-1 pb-sm-3"
+        >
+          <h1 class="h2 mb-0">Mis direcciones</h1>
+          <!-- <a
+            href="#"
+            class="btn text-danger btn-link font-size-base text-decoration-none pr-0"
+          >
+            <i class="cxi-delete font-size-lg mt-n1 mr-2"></i>
+            Elimiar cuenta
+          </a> -->
+        </div>
+        <form action="">
+          <div class="row pb-3">
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">Nombres</label>
+              <input
+                type="text"
+                name="destinatario"
+                [(ngModel)]="direccion.destinatario"
+                class="form-control form-control-lg"
+                placeholder="Nombres completos del destinatario"
+                required
+              />
+            </div>
+            <!-- <div class="col-sm-6 form-group">
+                <label for="ac-fn">DNI</label>
+                <input
+                  type="text"
+                  name="dni"
+                  [(ngModel)]="direccion.dni"
+                  class="form-control form-control-lg"
+                  placeholder="Nombres completos"
+                  required
+                />
+              </div> -->
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">Código postal</label>
+              <input
+                type="text"
+                name="zip"
+                [(ngModel)]="direccion.zip"
+                class="form-control form-control-lg"
+                placeholder="Código postal"
+                required
+              />
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">Telefono</label>
+              <input
+                type="tel"
+                name="telefono"
+                [(ngModel)]="direccion.telefono"
+                class="form-control form-control-lg"
+                placeholder="Telefono"
+                required
+              />
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">País</label>
+              <select
+                class="custom-select custom-select-lg"
+                name="pais"
+                [(ngModel)]="direccion.pais"
+              >
+                <option value="" selected disabled>Selecionar</option>
+              </select>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">Municipio</label>
+              <select
+                class="custom-select custom-select-lg"
+                name="region"
+                [(ngModel)]="direccion.region"
+              >
+                <option value="" selected disabled>Selecionar</option>
+              </select>
+            </div>
+            <div class="col-sm-6 form-group">
+              <label for="ac-fn">Estado</label>
+              <select
+                class="custom-select custom-select-lg"
+                name="provincia"
+                [(ngModel)]="direccion.provincia"
+              >
+                <option value="" selected disabled>Selecionar</option>
+              </select>
+            </div>
+            <div class="col-sm-12 form-group">
+              <label for="ac-fn">Dirección</label>
+              <textarea
+                class="form-control"
+                placeholder="Dirección"
+                name="direccion"
+                [(ngModel)]="direccion.direccion"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
