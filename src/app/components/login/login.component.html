@@ -1,6 +1,13 @@
+<link rel="stylesheet" href="login.component.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;600&family=Noto+Sans:ital,wght@0,400;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
 <app-nav></app-nav>
 <main class="cs-page-wrapper">
-  <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+  <nav class="bg-secondary mb-0" aria-label="breadcrumb">
     <div class="container">
       <ol class="breadcrumb breadcrumb-alt mb-0">
         <li class="breadcrumb-item">
@@ -11,7 +18,118 @@
     </div>
   </nav>
 
-  <section class="container pt-3 pt-md-4 pb-3 pb-sm-4 pb-lg-5 mb-4">
+  <section class="bg-white">
+    <div class="row g-0">
+      <!-- Caruusel -->
+      <div class="col-lg-7 d-none d-lg-block pt-lg-0">
+        <div
+          id="carouselExampleIndicators"
+          class="carousel slide"
+          data-ride="carousel"
+        >
+          <ol class="carousel-indicators">
+            <li
+              data-target="#carouselExampleIndicators"
+              data-slide-to="0"
+              class="active"
+            ></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active img-1 min-vh-100"></div>
+            <div class="carousel-item img-2 min-vh-100"></div>
+            <div class="carousel-item img-3 min-vh-100"></div>
+          </div>
+          <a
+            class="carousel-control-prev"
+            href="#carouselExampleIndicators"
+            role="button"
+            data-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselExampleIndicators"
+            role="button"
+            data-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+      <!-- Parte derecha formulario -->
+      <div class="col-lg-5 d-flex flex-column align-items-end min-vh-100">
+        <div class="px-lg-5 pt-lg-4 pb-lg-1 p-4 w-100 text-center mb-20">
+          <img
+            src="../../../assets/img/AMANTOLI1.png"
+            alt="LogoAmantoli"
+            class="img-fluid"
+          />
+        </div>
+        <div class="px-lg-5 py-lg-1 p-4 w-100 align-self-center">
+          <h1 class="font-weight-bold mb-4 mt-1 text-center">¡Bienvenido!</h1>
+          <form class="mb-5" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+            <div class="mb-4">
+              <label
+                for="exampleInputEmail1"
+                class="form-label font-weight-bold font-size"
+                >Correo electrónico</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Ingresa tu email"
+                required=""
+                name="email"
+                [(ngModel)]="user.email"
+              />
+            </div>
+            <div class="mb-4">
+              <label
+                for="exampleInputPassword1"
+                class="form-label font-weight-bold font-size"
+                >Contraseña</label
+              >
+              <input
+                type="password"
+                class="form-control mb-2"
+                placeholder="Ingresa tu contraseña"
+                required=""
+                name="password"
+                [(ngModel)]="user.password"
+              />
+              <a
+                href="#"
+                id="emailHelp"
+                class="form-text text-muted text-decoration-none"
+              >
+                ¿Has olvidado tu contraseña?
+              </a>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              Iniciar Sesión
+            </button>
+          </form>
+          <div class="text-center px-lg-5 pt-lg-2 pb-lg-2 p-1 w-100">
+            <p class="d-inline-block mb-0">
+              ¿No tienes una cuenta?
+              <a
+                [routerLink]="['/registro']"
+                class="font-weight-bold text-decoration-none"
+                >Registrate</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="container pt-3 pt-md-4 pb-3 pb-sm-4 pb-lg-5 mb-4">
     <div class="row">
       <div class="col-lg-6">
         <div class="px-md-5">
@@ -76,11 +194,10 @@
       </div>
       <div class="col-lg-6">
         <div class="px-md-5">
-          <!-- para poner una imagen al lado -->
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 </main>
 
 <app-footer></app-footer>
