@@ -7,6 +7,8 @@ import { PerfilComponent } from './components/usuario/perfil/perfil.component';
 import { AuthGuard } from './guards/auth.guard';
 import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 import { ShowProductoComponent } from './components/productos/show-producto/show-producto.component';
+import { CarritoComponent } from './components/carrito/carrito.component';
+import { DireccionesComponent } from './components/usuario/direcciones/direcciones.component';
 
 const appRoute: Routes = [
   {
@@ -25,6 +27,16 @@ const appRoute: Routes = [
   {
     path: 'cuenta/perfil',
     component: PerfilComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cuenta/direcciones',
+    component: DireccionesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'carrito',
+    component: CarritoComponent,
     canActivate: [AuthGuard],
   },
   {
