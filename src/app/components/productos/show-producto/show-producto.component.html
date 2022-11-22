@@ -77,16 +77,32 @@
       <div class="col-md-6 pl-xl-5">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <!-- Price -->
-          <div class="d-flex align-items-center mb-sm-0 mb-4">
-            <span class="h3 d-inline-block mb-0 text-danger"
-              >${{ producto.precio }}</span
+          <div
+            class="d-flex align-items-center mb-sm-0 mb-4"
+            *ngIf="descuento_activo != undefined"
+          >
+            <span
+              class="h3 d-inline-block mb-0 text-danger"
+              *ngIf="descuento_activo"
+              >${{
+                producto.precio | descuento: descuento_activo.descuento
+              }}</span
             >
             <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted"
-              >$31.00</del
+              >${{ producto.precio }}</del
             >
             <span
               class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold"
-              >- 50%</span
+              *ngIf="descuento_activo"
+              >- {{ descuento_activo.descuento }}%</span
+            >
+          </div>
+          <div
+            class="d-flex align-items-center mb-sm-0 mb-4"
+            *ngIf="descuento_activo == undefined"
+          >
+            <span class="h3 d-inline-block mb-0" *ngIf="descuento_activo"
+              >${{ producto.precio }}</span
             >
           </div>
 
@@ -258,66 +274,6 @@
         <!-- Accordion made of cards -->
         <div class="accordion-alt mb-4" id="productTerms">
           <!-- Card -->
-          <div class="card border-bottom">
-            <div class="card-header" id="delivery-card">
-              <h6 class="accordion-heading">
-                <a
-                  href="#delivery"
-                  class="collapsed"
-                  role="button"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                  aria-controls="delivery"
-                  >Entrega
-                  <span class="accordion-indicator"></span>
-                </a>
-              </h6>
-            </div>
-            <div
-              class="collapse"
-              id="delivery"
-              aria-labelledby="delivery-card"
-              data-parent="#productTerms"
-            >
-              <div class="card-body">
-                <p class="font-size-sm">
-                  Envío estándar gratuito en pedidos
-                  <strong>superiores a $2500.00 </strong> antes de impuestos,
-                  más devoluciones gratuitas.
-                </p>
-
-                <!-- Delivery table -->
-                <div class="table-responsive px-md-3">
-                  <table class="table mb-0" style="min-width: 450px">
-                    <thead class="font-size-xs text-uppercase text-muted">
-                      <tr>
-                        <th class="border-0 font-weight-normal">Type</th>
-                        <th class="border-0 font-weight-normal">How long</th>
-                        <th class="border-0 font-weight-normal">How much</th>
-                      </tr>
-                    </thead>
-                    <tbody class="font-size-sm">
-                      <tr>
-                        <th class="font-weight-normal">Standard delivery</th>
-                        <td>1-4 business days</td>
-                        <td>$4.50</td>
-                      </tr>
-                      <tr>
-                        <th class="font-weight-normal">Express delivery</th>
-                        <td>1 business day</td>
-                        <td>$10.00</td>
-                      </tr>
-                      <tr>
-                        <th class="font-weight-normal">Pick up in store</th>
-                        <td>1-3 business days</td>
-                        <td>Free</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Card -->
           <div class="card border-bottom">
@@ -343,10 +299,9 @@
             >
               <p class="font-size-sm">
                 Tiene <strong> 60 días</strong> para devolver los artículos
-                utilizando cualquiera de los siguientes métodos:
+                utilizando cualquiera de los siguiente método:
               </p>
               <ul class="mb-4 pl-3">
-                <li>Devolución gratuita en tienda</li>
                 <li>
                   Devoluciones gratuitas a través del servicio de entrega de
                   USPS
@@ -450,11 +405,26 @@
               <h3 class="card-product-title text-truncate mb-2">
                 <a href="#" class="nav-link">{{ producto.titulo }}</a>
               </h3>
-              <div class="d-flex align-items-center mb-3">
-                <span class="h5 d-inline-block text-danger mb-0"
+              <div
+                class="d-flex align-items-center mb-3"
+                *ngIf="descuento_activo == undefined"
+              >
+                <span class="h5 d-inline-block mb-0"
                   >${{ producto.precio }}</span
                 >
-                <del class="d-inline-block ml-2 pl-1 text-muted">$31.00</del>
+              </div>
+              <div
+                class="d-flex align-items-center mb-3"
+                *ngIf="descuento_activo != undefined"
+              >
+                <span class="h5 d-inline-block text-danger mb-0"
+                  >${{
+                    producto.precio | descuento: descuento_activo.descuento
+                  }}</span
+                >
+                <del class="d-inline-block ml-2 pl-1 text-muted"
+                  >${{ producto.precio }}</del
+                >
               </div>
 
               <button
@@ -473,6 +443,15 @@
   </div>
 
   <section class="container py-md-6 py-5 mb-2">
+    <div class="row mb-5" *ngIf="descuento_activo != undefined">
+      <div class="col-12">
+        <img
+          [src]="url + 'obtener_banner_descuento/' + descuento_activo.banner"
+          alt="banner"
+          style="width: 100% !important"
+        />
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-7 col-md-8 mb-md-0 mb-5">
         <div class="row mb-sm-5 mb-4 pb-2 pb-md-4">
@@ -847,11 +826,24 @@
             <h3 class="card-product-title text-truncate mb-2">
               <a href="#" class="nav-link">{{ producto.titulo }}</a>
             </h3>
-            <div class="d-flex align-items-center mb-3">
+            <div
+              class="d-flex align-items-center mb-3"
+              *ngIf="descuento_activo == undefined"
+            >
+              <span class="h5 d-inline-block mb-0">${{ producto.precio }}</span>
+            </div>
+            <div
+              class="d-flex align-items-center mb-3"
+              *ngIf="descuento_activo != undefined"
+            >
               <span class="h5 d-inline-block text-danger mb-0"
-                >${{ producto.precio }}</span
+                >${{
+                  producto.precio | descuento: descuento_activo.descuento
+                }}</span
               >
-              <del class="d-inline-block ml-2 pl-1 text-muted">$31.00</del>
+              <del class="d-inline-block ml-2 pl-1 text-muted"
+                >${{ producto.precio }}</del
+              >
             </div>
 
             <button
@@ -924,8 +916,26 @@
                     >{{ item.titulo }}</a
                   >
                 </h3>
-                <div class="d-flex align-items-center">
-                  <span class="h5 d-inline-block mb-0">${{ item.precio }}</span>
+                <div
+                  class="d-flex align-items-center mb-3"
+                  *ngIf="descuento_activo == undefined"
+                >
+                  <span class="h5 d-inline-block mb-0"
+                    >${{ producto.precio }}</span
+                  >
+                </div>
+                <div
+                  class="d-flex align-items-center mb-3"
+                  *ngIf="descuento_activo != undefined"
+                >
+                  <span class="h5 d-inline-block text-danger mb-0"
+                    >${{
+                      producto.precio | descuento: descuento_activo.descuento
+                    }}</span
+                  >
+                  <del class="d-inline-block ml-2 pl-1 text-muted"
+                    >${{ producto.precio }}</del
+                  >
                 </div>
               </div>
             </div>

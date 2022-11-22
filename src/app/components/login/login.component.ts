@@ -45,7 +45,14 @@ export class LoginComponent implements OnInit {
             this.usuario = res.data;
             localStorage.setItem('token', res.token);
             localStorage.setItem('_id', res.data._id);
-
+            iziToast.show({
+              title: 'Exito',
+              theme: 'dark', // dark // light
+              class: 'text-danger',
+              titleColor: '#33C10A',
+              position: 'topRight',
+              message: 'Bienvenido.',
+            });
             this._router.navigate(['/']);
           }
         },
@@ -56,10 +63,11 @@ export class LoginComponent implements OnInit {
     } else {
       iziToast.show({
         title: 'ERROR',
+        theme: 'dark', // dark // light
         class: 'text-danger',
         titleColor: '#ff0000',
         position: 'topRight',
-        message: 'Los datos del formulario no son validos.',
+        message: 'Los datos del formulario no son válidos.',
       });
     }
   }
