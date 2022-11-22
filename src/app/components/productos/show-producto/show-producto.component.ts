@@ -24,6 +24,7 @@ export class ShowProductoComponent implements OnInit {
   public token;
   public btn_cart = false;
   public socket = io('http://localhost:4201');
+  public descuento_activo: any = undefined;
 
   constructor(
     private _route: ActivatedRoute,
@@ -117,6 +118,10 @@ export class ShowProductoComponent implements OnInit {
         },
       });
     }, 500);
+    this._guestService.obtener_descuento_activo().subscribe((res) => {
+      this.descuento_activo = res.data[0];
+      console.log(this.descuento_activo);
+    });
   }
 
   agregar_producto() {
@@ -164,7 +169,7 @@ export class ShowProductoComponent implements OnInit {
           class: 'text-danger',
           titleColor: '#ff0000',
           position: 'topRight',
-          message: 'La maxima cantidad disponible es: ' + this.producto.stock,
+          message: 'La máxima cantidad disponible es: ' + this.producto.stock,
         });
       }
     } else {
@@ -173,7 +178,7 @@ export class ShowProductoComponent implements OnInit {
         class: 'text-danger',
         titleColor: '#ff0000',
         position: 'topRight',
-        message: 'Seleccione una vaierdad de producto.',
+        message: 'Seleccione una variedad de producto.',
       });
     }
   }

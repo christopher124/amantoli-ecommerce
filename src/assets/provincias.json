@@ -1,0 +1,29 @@
+
+[
+  {
+    "id": "0101",
+    "name": "Guadalajara",
+    "department_id": "01"
+  },
+  {
+    "id": "0102",
+    "name": "Zapopan",
+    "department_id": "01"
+  },
+  {
+    "id": "0103",
+    "name": "San pedro tlaquepaque",
+    "department_id": "01"
+  },
+  {
+    "id": "0104",
+    "name": "Tlajomulco de Zúñiga",
+    "department_id": "01"
+  },
+  {
+    "id": "0105",
+    "name": "Tonalá",
+    "department_id": "01"
+  }
+  
+]

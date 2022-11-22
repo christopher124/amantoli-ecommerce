@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Tienda</title>
+    <title>Amantoli</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Favicon and Touch Icons-->
@@ -206,14 +206,6 @@
     </div>
     <main class="cs-page-wrapper"><app-root></app-root></main>
 
-    <!-- Back to top button-->
-    <a class="btn-scroll-top" href="#top" data-scroll data-fixed-element>
-      <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2"
-        >Top</span
-      >
-      <i class="btn-scroll-top-icon cxi-angle-up"></i>
-    </a>
-
     <!-- Vendor scripts: js libraries and plugins-->
     <script src="assets/vendor/jquery/dist/jquery.slim.min.js"></script>
     <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -227,5 +219,15 @@
     <script src="assets/js/theme.min.js"></script>
     <script src="assets/js/iziToast.min.js"></script>
     <script src="assets/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
+    <script src="assets/js/cleave.min.js"></script>
+    <script src="assets/js/sticky-sidebar.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ATJo3S7G-IAvcpJDbtHbMe3Hv5epZCkBuMBArleYt0SNucTarCUV7nzH-TfxA_XlkSdAq1xZlIhypBTm"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const stripe = Stripe(
+        "pk_test_51M3pMIEgQCO20mLFHi2qSqnzOdbAkHi4LLqUxwKLphPqS3Q5nCaKE8qs7u7b2xzC90WvfYkXtv8kJLV7yEUNSmzO00d30LsCiE"
+      );
+      const elements = stripe.elements();
+    </script>
   </body>
 </html>

@@ -9,6 +9,7 @@ import { IndexProductoComponent } from './components/productos/index-producto/in
 import { ShowProductoComponent } from './components/productos/show-producto/show-producto.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { DireccionesComponent } from './components/usuario/direcciones/direcciones.component';
+import { ContactoComponent } from './components/contacto/contacto.component';
 
 const appRoute: Routes = [
   {
@@ -50,6 +51,10 @@ const appRoute: Routes = [
   {
     path: 'productos/:slug',
     component: ShowProductoComponent,
+  },
+  {
+    path: 'contacto',
+    component: ContactoComponent,
   },
 ];
 

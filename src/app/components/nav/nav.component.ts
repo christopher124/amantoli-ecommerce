@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { GLOBAL } from 'src/app/services/GLOBAL';
 import { io } from 'socket.io-client';
+import { GuestService } from 'src/app/services/guest.service';
 declare var $: any;
 declare var iziToast: any;
 
@@ -22,9 +23,12 @@ export class NavComponent implements OnInit {
   public url;
   public subtotal = 0;
   public socket = io('http://localhost:4201');
+  public descuento_activo: any = undefined;
+
   constructor(
     private _clienteService: ClienteService,
-    private _router: Router
+    private _router: Router,
+    private _guestService: GuestService
   ) {
     this.url = GLOBAL.url;
     this.token = localStorage.getItem('token');
@@ -61,7 +65,6 @@ export class NavComponent implements OnInit {
       .subscribe(
         (res) => {
           this.carrito_arr = res.data;
-          this.subtotal = 0;
           this.calcular_carrito();
         },
         (err) => {
@@ -73,6 +76,10 @@ export class NavComponent implements OnInit {
   ngOnInit(): any {
     this.socket.on('new-carrito', this.obtener_carrito.bind(this)); //eliminar
     this.socket.on('new-carrito-add', this.obtener_carrito.bind(this)); //Agregar
+    this._guestService.obtener_descuento_activo().subscribe((res) => {
+      this.descuento_activo = res.data[0];
+      console.log(this.descuento_activo);
+    });
   }
 
   logout() {
@@ -91,9 +98,22 @@ export class NavComponent implements OnInit {
     }
   }
   calcular_carrito() {
-    this.carrito_arr.forEach((e) => {
-      this.subtotal = this.subtotal + parseInt(e.producto.precio);
-    });
+    this.subtotal = 0;
+    if (this.descuento_activo == undefined) {
+      this.carrito_arr.forEach((e) => {
+        let sub_precio = parseInt(e.producto.precio) * e.cantidad;
+        this.subtotal = this.subtotal + sub_precio;
+      });
+    } else if (this.descuento_activo != undefined) {
+      this.carrito_arr.forEach((e) => {
+        let cantidad = e.cantidad;
+        let sub_precio =
+          Math.round(parseInt(e.producto.precio)) -
+          (parseInt(e.producto.precio) * this.descuento_activo.descuento) / 100;
+        let todo = sub_precio * cantidad;
+        this.subtotal = this.subtotal + todo;
+      });
+    }
   }
   eliminar_item(id: any) {
     this._clienteService.eliminar_carrito_cliente(id, this.token).subscribe(
