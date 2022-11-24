@@ -189,4 +189,49 @@ export class ClienteService {
       headers: headers,
     });
   }
+  obtener_ordenes_cliente(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'obtener_ordenes_cliente/' + id, {
+      headers: headers,
+    });
+  }
+  obtener_detalles_ordenes_cliente(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'obtener_detalles_ordenes_cliente/' + id, {
+      headers: headers,
+    });
+  }
+  emetir_review_producto_cliente(data: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.post(this.url + 'emetir_review_producto_cliente', data, {
+      headers: headers,
+    });
+  }
+  obtener_review_producto_cliente(id: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this._http.get(this.url + 'obtener_review_producto_cliente/' + id, {
+      headers: headers,
+    });
+  }
+
+  obtener_reviews_cliente(id: any, token: any): Observable<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token,
+    });
+    return this._http.get(this.url + 'obtener_reviews_cliente/' + id, {
+      headers: headers,
+    });
+  }
 }

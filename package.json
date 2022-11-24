@@ -23,6 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.1.0",
     "@popperjs/core": "^2.11.6",
     "jquery": "^3.6.1",
+    "ng-starrating": "^1.0.20",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.5.3",
     "tslib": "^2.3.0",

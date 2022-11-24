@@ -3,32 +3,32 @@ import { ClienteService } from 'src/app/services/cliente.service';
 import { GLOBAL } from 'src/app/services/GLOBAL';
 
 @Component({
-  selector: 'app-index-ordenes',
-  templateUrl: './index-ordenes.component.html',
-  styleUrls: ['./index-ordenes.component.css'],
+  selector: 'app-index-review',
+  templateUrl: './index-review.component.html',
+  styleUrls: ['./index-review.component.css'],
 })
-export class IndexOrdenesComponent implements OnInit {
-  public url;
-  public token;
-  public ordenes: Array<any> = [];
+export class IndexReviewComponent implements OnInit {
   public load_data = true;
+  public reviews: Array<any> = [];
+  public token;
+  public url;
+  public id;
+
   public page = 1;
-  public pageSize = 5;
+  public pageSize = 15;
 
   constructor(private _clienteService: ClienteService) {
+    this.id = localStorage.getItem('_id');
     this.token = localStorage.getItem('token');
     this.url = GLOBAL.url;
   }
 
   ngOnInit(): void {
-    this.init_data();
-  }
-
-  init_data() {
     this._clienteService
-      .obtener_ordenes_cliente(localStorage.getItem('_id'), this.token)
+      .obtener_reviews_cliente(this.id, this.token)
       .subscribe((res) => {
-        this.ordenes = res.data;
+        this.reviews = res.data;
+        console.log(res);
         this.load_data = false;
       });
   }

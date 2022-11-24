@@ -66,4 +66,10 @@ export class GuestService {
       headers: headers,
     });
   }
+  listar_reviews_producto_publico(id: any): Observable<any> {
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.get(this.url + 'listar_reviews_producto_publico/' + id, {
+      headers: headers,
+    });
+  }
 }
