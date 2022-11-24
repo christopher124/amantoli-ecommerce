@@ -77,16 +77,32 @@
       <div class="col-md-6 pl-xl-5">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <!-- Price -->
-          <div class="d-flex align-items-center mb-sm-0 mb-4">
-            <span class="h3 d-inline-block mb-0 text-danger"
-              >${{ producto.precio }}</span
+          <div
+            class="d-flex align-items-center mb-sm-0 mb-4"
+            *ngIf="descuento_activo != undefined"
+          >
+            <span
+              class="h3 d-inline-block mb-0 text-danger"
+              *ngIf="descuento_activo"
+              >${{
+                producto.precio | descuento: descuento_activo.descuento
+              }}</span
             >
             <del class="d-inline-block ml-2 pl-1 font-size-lg text-muted"
-              >$31.00</del
+              >${{ producto.precio }}</del
             >
             <span
               class="ml-4 p-2 badge badge-danger font-size-base font-weight-bold"
-              >- 50%</span
+              *ngIf="descuento_activo"
+              >- {{ descuento_activo.descuento }}%</span
+            >
+          </div>
+          <div
+            class="d-flex align-items-center mb-sm-0 mb-4"
+            *ngIf="descuento_activo == undefined"
+          >
+            <span class="h3 d-inline-block mb-0" *ngIf="descuento_activo"
+              >${{ producto.precio }}</span
             >
           </div>
 
@@ -175,7 +191,12 @@
           <div class="col-sm-8 order-sm-1 order-2">
             <div class="form-group">
               <label for="size">{{ producto.titulo_variedad }}</label>
-              <select class="form-control custom-select" id="size">
+              <select
+                class="form-control custom-select"
+                id="size"
+                name="variedad"
+                [(ngModel)]="carrito_data.variedad"
+              >
                 <option value="" selected disabled>Seleccionar</option>
 
                 <option
@@ -201,18 +222,44 @@
           </div>
           <div class="col-lg-2 col-4 order-lg-3 order-3">
             <div class="form-group">
-              <select class="form-control custom-select" id="select-input">
-                <option>1</option>
-                <option>2</option>
-                <option>5</option>
-                <option>10</option>
+              <select
+                class="form-control custom-select"
+                id="select-input"
+                name="cantidad"
+                [(ngModel)]="carrito_data.cantidad"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
               </select>
             </div>
           </div>
           <div class="col-lg-6 order-lg-4 order-4">
-            <button class="btn btn-block btn-primary">
+            <button
+              *ngIf="!btn_cart"
+              class="btn btn-block btn-primary"
+              (click)="agregar_producto()"
+            >
               <i class="cxi-cart mr-2"></i>
               Añadir al carrito
+            </button>
+            <button
+              type="button"
+              *ngIf="btn_cart"
+              class="btn btn-primary"
+              disabled
+            >
+              <span
+                class="spinner-grow spinner-grow-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Agregando...
             </button>
           </div>
           <div class="col-lg-4 col-8 order-lg-5 order-2">
@@ -227,66 +274,6 @@
         <!-- Accordion made of cards -->
         <div class="accordion-alt mb-4" id="productTerms">
           <!-- Card -->
-          <div class="card border-bottom">
-            <div class="card-header" id="delivery-card">
-              <h6 class="accordion-heading">
-                <a
-                  href="#delivery"
-                  class="collapsed"
-                  role="button"
-                  data-toggle="collapse"
-                  aria-expanded="false"
-                  aria-controls="delivery"
-                  >Entrega
-                  <span class="accordion-indicator"></span>
-                </a>
-              </h6>
-            </div>
-            <div
-              class="collapse"
-              id="delivery"
-              aria-labelledby="delivery-card"
-              data-parent="#productTerms"
-            >
-              <div class="card-body">
-                <p class="font-size-sm">
-                  Envío estándar gratuito en pedidos
-                  <strong>superiores a $2500.00 </strong> antes de impuestos,
-                  más devoluciones gratuitas.
-                </p>
-
-                <!-- Delivery table -->
-                <div class="table-responsive px-md-3">
-                  <table class="table mb-0" style="min-width: 450px">
-                    <thead class="font-size-xs text-uppercase text-muted">
-                      <tr>
-                        <th class="border-0 font-weight-normal">Type</th>
-                        <th class="border-0 font-weight-normal">How long</th>
-                        <th class="border-0 font-weight-normal">How much</th>
-                      </tr>
-                    </thead>
-                    <tbody class="font-size-sm">
-                      <tr>
-                        <th class="font-weight-normal">Standard delivery</th>
-                        <td>1-4 business days</td>
-                        <td>$4.50</td>
-                      </tr>
-                      <tr>
-                        <th class="font-weight-normal">Express delivery</th>
-                        <td>1 business day</td>
-                        <td>$10.00</td>
-                      </tr>
-                      <tr>
-                        <th class="font-weight-normal">Pick up in store</th>
-                        <td>1-3 business days</td>
-                        <td>Free</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Card -->
           <div class="card border-bottom">
@@ -312,10 +299,9 @@
             >
               <p class="font-size-sm">
                 Tiene <strong> 60 días</strong> para devolver los artículos
-                utilizando cualquiera de los siguientes métodos:
+                utilizando cualquiera de los siguiente método:
               </p>
               <ul class="mb-4 pl-3">
-                <li>Devolución gratuita en tienda</li>
                 <li>
                   Devoluciones gratuitas a través del servicio de entrega de
                   USPS
@@ -378,7 +364,6 @@
       </div>
     </div>
   </section>
-
   <div class="py-6" style="background-color: #e5e8ed">
     <section class="container my-lg-5 py-2 py-md-4">
       <div class="row">
@@ -455,7 +440,11 @@
                   class="col-lg-12 col-md-10 mb-md-0 mb-1 mt-3 h5"
                   [innerHTML]="producto.contenido"
                 ></div>
-                <a class="btn btn-warning mb-3 mt-5">Quiero comprar</a>
+                <a
+                  (click)="agregar_producto()"
+                  class="btn btn-warning mb-3 mt-5"
+                  >Quiero comprar</a
+                >
               </div>
             </div>
           </div>
@@ -466,22 +455,46 @@
   </div>
 
   <section class="container py-md-6 py-5 mb-2">
+    <div class="row mb-5" *ngIf="descuento_activo != undefined">
+      <div class="col-12">
+        <img
+          [src]="url + 'obtener_banner_descuento/' + descuento_activo.banner"
+          alt="banner"
+          style="width: 100% !important"
+        />
+      </div>
+    </div>
     <div class="row">
       <div class="col-lg-7 col-md-8 mb-md-0 mb-5">
         <div class="row mb-sm-5 mb-4 pb-2 pb-md-4">
           <!-- Rating -->
           <div class="col-sm-5 mb-sm-0 mb-4">
-            <h3 class="h2 mb-3 pb-1">12 reviews</h3>
-            <div class="star-rating mb-3 pb-1">
-              <i class="sr-star cxi-star-filled active"></i>
-              <i class="sr-star cxi-star-filled active"></i>
-              <i class="sr-star cxi-star-filled active"></i>
-              <i class="sr-star cxi-star-filled active"></i>
-              <i class="sr-star cxi-star"></i>
+            <h3 class="h2 mb-3 pb-1">{{ reviews.length }} reviews</h3>
+            <div class="mt-n1 star-rating">
+              <i
+                class="sr-star cxi-star-filled"
+                [ngClass]="{ active: puntos_raiting >= 1 }"
+              ></i>
+              <i
+                class="sr-star cxi-star-filled"
+                [ngClass]="{ active: puntos_raiting >= 2 }"
+              ></i>
+              <i
+                class="sr-star cxi-star-filled"
+                [ngClass]="{ active: puntos_raiting >= 3 }"
+              ></i>
+              <i
+                class="sr-star cxi-star-filled"
+                [ngClass]="{ active: puntos_raiting >= 4 }"
+              ></i>
+              <i
+                class="sr-star cxi-star-filled"
+                [ngClass]="{ active: puntos_raiting >= 5 }"
+              ></i>
             </div>
             <span class="font-size-sm text-muted">
-              9 out of 12 (75%) <br />
-              Customers recommended this product
+              9 out of {{ reviews.length }} ({{ porcent_raiting }}%) <br />
+              Compradores satisfechos con el producto
             </span>
           </div>
 
@@ -498,14 +511,14 @@
                   <div
                     class="progress-bar bg-success"
                     role="progressbar"
-                    style="width: 80%"
+                    [ngStyle]="{ width: cinco_porcent + '%' }"
                     aria-valuenow="60"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   ></div>
                 </div>
               </div>
-              <span class="text-muted ml-3">7</span>
+              <span class="text-muted ml-3">{{ count_five_start }}</span>
             </div>
 
             <!-- 4 stars -->
@@ -517,16 +530,16 @@
               <div class="w-100">
                 <div class="progress" style="height: 4px">
                   <div
-                    class="progress-bar"
+                    class="progress-bar bg-info"
                     role="progressbar"
-                    style="width: 50%; background-color: #a7e453"
+                    [ngStyle]="{ width: cuatro_porcent + '%' }"
                     aria-valuenow="27"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   ></div>
                 </div>
               </div>
-              <span class="text-muted ml-3">2</span>
+              <span class="text-muted ml-3">{{ count_four_start }}</span>
             </div>
 
             <!-- 3 stars -->
@@ -538,16 +551,16 @@
               <div class="w-100">
                 <div class="progress" style="height: 4px">
                   <div
-                    class="progress-bar"
+                    class="progress-bar bg-warnig"
                     role="progressbar"
-                    style="width: 30%; background-color: #ffda75"
+                    [ngStyle]="{ width: tres_porcent + '%' }"
                     aria-valuenow="17"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   ></div>
                 </div>
               </div>
-              <span class="text-muted ml-3">1</span>
+              <span class="text-muted ml-3">{{ count_three_start }}</span>
             </div>
 
             <!-- 2 stars -->
@@ -559,16 +572,16 @@
               <div class="w-100">
                 <div class="progress" style="height: 4px">
                   <div
-                    class="progress-bar bg-warning"
+                    class="progress-bar bg-danger"
                     role="progressbar"
-                    style="width: 30%"
+                    [ngStyle]="{ width: dos_porcent + '%' }"
                     aria-valuenow="9"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   ></div>
                 </div>
               </div>
-              <span class="text-muted ml-3">1</span>
+              <span class="text-muted ml-3">{{ count_two_start }}</span>
             </div>
 
             <!-- 1 star -->
@@ -580,22 +593,22 @@
               <div class="w-100">
                 <div class="progress" style="height: 4px">
                   <div
-                    class="progress-bar bg-danger"
+                    class="progress-bar bg-primary"
                     role="progressbar"
-                    style="width: 30%"
+                    [ngStyle]="{ width: uno_porcent + '%' }"
                     aria-valuenow="4"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   ></div>
                 </div>
               </div>
-              <span class="text-muted ml-3">1</span>
+              <span class="text-muted ml-3">{{ count_one_start }}</span>
             </div>
           </div>
         </div>
 
         <!-- Button + sorting -->
-        <div
+        <!-- <div
           class="d-flex align-items-center justify-content-between mb-4 pb-2 pb-sm-4"
         >
           <a href="#modal-review" data-toggle="modal" class="btn btn-primary"
@@ -614,198 +627,75 @@
               <option>Low rating</option>
             </select>
           </div>
-        </div>
+        </div> -->
 
         <!-- Review -->
-        <div class="mb-4 pb-4 border-bottom">
-          <div class="row">
-            <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
-              <h3 class="mb-2 font-size-lg">Devon Lane</h3>
-              <span class="d-block mb-3 font-size-sm text-muted"
-                >3 days ago</span
-              >
-              <div class="mt-n1 star-rating">
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
+        <ng-container *ngIf="reviews.length >= 1">
+          <div
+            class="mb-4 pb-4 border-bottom"
+            *ngFor="
+              let item of reviews
+                | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
+              let indice = index
+            "
+          >
+            <div class="row">
+              <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
+                <h3 class="mb-2 fs-lg">
+                  {{ item.cliente.nombres }} - {{ item.cliente.apellidos }}
+                </h3>
+                <span class="d-block mb-3 fs-sm text-muted">{{
+                  item.createdAt | date
+                }}</span>
+                <div class="mt-n1 star-rating">
+                  <i
+                    class="sr-star cxi-star-filled"
+                    [ngClass]="{ active: item.estrellas >= 1 }"
+                  ></i>
+                  <i
+                    class="sr-star cxi-star-filled"
+                    [ngClass]="{ active: item.estrellas >= 2 }"
+                  ></i>
+                  <i
+                    class="sr-star cxi-star-filled"
+                    [ngClass]="{ active: item.estrellas >= 3 }"
+                  ></i>
+                  <i
+                    class="sr-star cxi-star-filled"
+                    [ngClass]="{ active: item.estrellas >= 4 }"
+                  ></i>
+                  <i
+                    class="sr-star cxi-star-filled"
+                    [ngClass]="{ active: item.estrellas >= 5 }"
+                  ></i>
+                </div>
               </div>
-            </div>
-            <div class="col">
-              <p class="mb-3">
-                Vel velit pulvinar montes, sit rhoncus odio molestie. Venenatis
-                nunc fames ut proin adipiscing sit. Etiam egestas elit varius a,
-                vestibulum bibendum nibh sociis in. Ut facilisis sit eget cum
-                fringilla. Dapibus mauris viverra est sed risus quam lacinia.
-              </p>
-              <div class="d-flex justify-content-end">
-                <a class="nav-link mr-3 p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-like mr-2 font-size-base align-middle mt-n1 text-success"
-                  ></i>
-                  2
-                </a>
-                <a class="nav-link p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-dislike mr-2 font-size-base align-middle mt-n1 text-danger"
-                  ></i>
-                  0
-                </a>
+              <div class="col">
+                <p class="mb-3">
+                  <a class="me-1 fw-bold text-decoration-none"
+                    >@{{ item.cliente.email }}</a
+                  >
+                </p>
+                <p>{{ item.review }}</p>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Review -->
-        <div class="mb-4 pb-4 border-bottom">
+        </ng-container>
+        <ng-container *ngIf="reviews.length == 0">
           <div class="row">
-            <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
-              <h3 class="mb-2 font-size-lg">Annette Black</h3>
-              <span class="d-block mb-3 font-size-sm text-muted"
-                >November 29, 2020</span
-              >
-              <div class="mt-n1 star-rating">
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star"></i>
-              </div>
-            </div>
-            <div class="col">
-              <p class="mb-3">
-                Amet ut augue dignissim lorem. Diam volutpat porttitor vel,
-                pulvinar semper. Faucibus vel accumsan mi diam magna. Nunc diam
-                lorem semper rhoncus in ut. Quis risus viverra bibendum eu.
-              </p>
-              <div class="d-flex justify-content-end">
-                <a class="nav-link mr-3 p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-like mr-2 font-size-base align-middle mt-n1 text-success"
-                  ></i>
-                  5
-                </a>
-                <a class="nav-link p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-dislike mr-2 font-size-base align-middle mt-n1 text-danger"
-                  ></i>
-                  1
-                </a>
-              </div>
+            <div class="col-12 text-center">
+              <h5>Este producto no tiene reseñas</h5>
             </div>
           </div>
-        </div>
-
-        <!-- Review -->
-        <div class="mb-4 pb-4 border-bottom">
-          <div class="row">
-            <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
-              <h3 class="mb-2 font-size-lg">Albert Flores</h3>
-              <span class="d-block mb-3 font-size-sm text-muted"
-                >November 5, 2020</span
-              >
-              <div class="mt-n1 star-rating">
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star"></i>
-              </div>
-            </div>
-            <div class="col">
-              <p class="mb-3">
-                Et, enim pellentesque ut malesuada interdum. Id odio proin
-                molestie ac tellus ornare lectus amet semper. Bibendum non nulla
-                leo pharetra, mi ultrices proin rhoncus diam.
-              </p>
-              <div class="d-flex justify-content-end">
-                <a class="nav-link mr-3 p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-like mr-2 font-size-base align-middle mt-n1 text-success"
-                  ></i>
-                  0
-                </a>
-                <a class="nav-link p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-dislike mr-2 font-size-base align-middle mt-n1 text-danger"
-                  ></i>
-                  0
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review -->
-        <div class="mb-4 pb-4 border-bottom">
-          <div class="row">
-            <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
-              <h3 class="mb-2 font-size-lg">Marvin McKinney</h3>
-              <span class="d-block mb-3 font-size-sm text-muted"
-                >October 13, 2020</span
-              >
-              <div class="mt-n1 star-rating">
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-                <i class="sr-star cxi-star-filled active"></i>
-              </div>
-            </div>
-            <div class="col">
-              <p class="mb-3">
-                Eu duis ac, faucibus et egestas morbi elementum urna in. Feugiat
-                natoque vestibulum, augue nisi. Vulputate vitae felis quis
-                mauris morbi massa ut. Dolor in amet volutpat facilisi luctus
-                duis mauris.
-              </p>
-              <div class="d-flex justify-content-end">
-                <a class="nav-link mr-3 p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-like mr-2 font-size-base align-middle mt-n1 text-success"
-                  ></i>
-                  9
-                </a>
-                <a class="nav-link p-0 font-size-sm" href="#">
-                  <i
-                    class="cxi-dislike mr-2 font-size-base align-middle mt-n1 text-danger"
-                  ></i>
-                  2
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        </ng-container>
 
         <!-- Pagination: With icons -->
-        <nav class="mt-4 pt-4" aria-label="Reviews pagination">
-          <ul class="pagination justify-content-center mb-0">
-            <li class="page-item d-sm-none">
-              <span class="page-link page-link-static">1 / 4</span>
-            </li>
-            <li class="page-item active d-none d-sm-block" aria-current="page">
-              <span class="page-link"
-                >1
-                <span class="sr-only">(current)</span>
-              </span>
-            </li>
-            <li class="page-item d-none d-sm-block">
-              <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item d-none d-sm-block">
-              <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item d-none d-sm-block">
-              <a class="page-link" href="#">4</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">
-                <i class="cxi-arrow-right"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <ngb-pagination
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [collectionSize]="reviews.length"
+        >
+        </ngb-pagination>
       </div>
       <div class="col-md-4 offset-lg-1">
         <!-- Product card carousel -->
@@ -840,11 +730,24 @@
             <h3 class="card-product-title text-truncate mb-2">
               <a href="#" class="nav-link">{{ producto.titulo }}</a>
             </h3>
-            <div class="d-flex align-items-center mb-3">
+            <div
+              class="d-flex align-items-center mb-3"
+              *ngIf="descuento_activo == undefined"
+            >
+              <span class="h5 d-inline-block mb-0">${{ producto.precio }}</span>
+            </div>
+            <div
+              class="d-flex align-items-center mb-3"
+              *ngIf="descuento_activo != undefined"
+            >
               <span class="h5 d-inline-block text-danger mb-0"
-                >${{ producto.precio }}</span
+                >${{
+                  producto.precio | descuento: descuento_activo.descuento
+                }}</span
               >
-              <del class="d-inline-block ml-2 pl-1 text-muted">$31.00</del>
+              <del class="d-inline-block ml-2 pl-1 text-muted"
+                >${{ producto.precio }}</del
+              >
             </div>
 
             <button
@@ -917,8 +820,26 @@
                     >{{ item.titulo }}</a
                   >
                 </h3>
-                <div class="d-flex align-items-center">
-                  <span class="h5 d-inline-block mb-0">${{ item.precio }}</span>
+                <div
+                  class="d-flex align-items-center mb-3"
+                  *ngIf="descuento_activo == undefined"
+                >
+                  <span class="h5 d-inline-block mb-0"
+                    >${{ producto.precio }}</span
+                  >
+                </div>
+                <div
+                  class="d-flex align-items-center mb-3"
+                  *ngIf="descuento_activo != undefined"
+                >
+                  <span class="h5 d-inline-block text-danger mb-0"
+                    >${{
+                      producto.precio | descuento: descuento_activo.descuento
+                    }}</span
+                  >
+                  <del class="d-inline-block ml-2 pl-1 text-muted"
+                    >${{ producto.precio }}</del
+                  >
                 </div>
               </div>
             </div>

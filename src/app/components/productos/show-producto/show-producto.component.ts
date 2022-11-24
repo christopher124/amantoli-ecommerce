@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { GLOBAL } from 'src/app/services/GLOBAL';
 import { GuestService } from 'src/app/services/guest.service';
+import { io } from 'socket.io-client';
 // Importaciones THREE.js
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -19,9 +21,9 @@ import {
 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 //Final de importaciones de three.js
-
 declare var tns: any;
 declare var lightGallery: any;
+declare var iziToast: any;
 @Component({
   selector: 'app-show-producto',
   templateUrl: './show-producto.component.html',
@@ -32,17 +34,103 @@ export class ShowProductoComponent implements OnInit {
   public producto: any = {};
   public url;
   public productos_rec: Array<any> = [];
+  public carrito_data: any = {
+    variedad: '',
+    cantidad: 1,
+  };
+  public token;
+  public btn_cart = false;
+  public socket = io('http://localhost:4201');
+  public descuento_activo: any = undefined;
+  public reviews: Array<any> = [];
+  public page = 1;
+  public pageSize = 15;
+  public total_puntos = 0;
+  public max_puntos = 0;
+  public count_five_start = 0;
+  public count_four_start = 0;
+  public count_three_start = 0;
+  public count_two_start = 0;
+  public count_one_start = 0;
+  public porcent_raiting = 0;
+  public puntos_raiting = 0;
+
+  public cinco_porcent = 0;
+  public cuatro_porcent = 0;
+  public tres_porcent = 0;
+  public dos_porcent = 0;
+  public uno_porcent = 0;
+
   constructor(
     private _route: ActivatedRoute,
-    private _guestService: GuestService
+    private _guestService: GuestService,
+    private _clienteService: ClienteService
   ) {
     this.url = GLOBAL.url;
+    this.token = localStorage.getItem('token');
     this._route.params.subscribe((params) => {
       this.slug = params['slug'];
 
       this._guestService.obtener_productos_slug_publico(this.slug).subscribe(
         (res) => {
           this.producto = res.data;
+
+          this._guestService
+            .listar_reviews_producto_publico(this.producto._id)
+            .subscribe((res) => {
+              res.data.forEach((element: { estrellas: number }) => {
+                if (element.estrellas == 5) {
+                  this.count_five_start = this.count_five_start + 1;
+                } else if (element.estrellas == 4) {
+                  this.count_four_start = this.count_four_start + 1;
+                } else if (element.estrellas == 3) {
+                  this.count_three_start = this.count_three_start + 1;
+                } else if (element.estrellas == 2) {
+                  this.count_two_start = this.count_two_start + 1;
+                } else if (element.estrellas == 1) {
+                  this.count_one_start = this.count_one_start + 1;
+                }
+
+                this.cinco_porcent =
+                  (this.count_five_start * 100) / res.data.length;
+                this.cuatro_porcent =
+                  (this.count_four_start * 100) / res.data.length;
+                this.tres_porcent =
+                  (this.count_three_start * 100) / res.data.length;
+                this.dos_porcent =
+                  (this.count_two_start * 100) / res.data.length;
+                this.uno_porcent =
+                  (this.count_one_start * 100) / res.data.length;
+
+                let puntos_cinco = 0;
+                let puntos_cuatro = 0;
+                let puntos_tres = 0;
+                let puntos_dos = 0;
+                let puntos_uno = 0;
+
+                puntos_cinco = this.count_five_start * 5;
+                puntos_cuatro = this.count_four_start * 4;
+                puntos_tres = this.count_three_start * 3;
+                puntos_dos = this.count_two_start * 2;
+                puntos_uno = this.count_one_start * 1;
+
+                this.total_puntos =
+                  puntos_cinco +
+                  puntos_cuatro +
+                  puntos_tres +
+                  puntos_dos +
+                  puntos_uno;
+
+                this.max_puntos = res.data.length * 5;
+
+                this.porcent_raiting =
+                  (this.total_puntos * 100) / this.max_puntos;
+                this.puntos_raiting = (this.porcent_raiting * 5) / 100;
+              });
+
+              this.reviews = res.data;
+              console.log(res);
+            });
 
           this._guestService
             .listar_productos_recomendados_publico(this.producto.categoria)
@@ -123,8 +211,70 @@ export class ShowProductoComponent implements OnInit {
         },
       });
     }, 500);
+    this._guestService.obtener_descuento_activo().subscribe((res) => {
+      this.descuento_activo = res.data[0];
+      console.log(this.descuento_activo);
+    });
   }
 
+  agregar_producto() {
+    if (this.carrito_data.variedad) {
+      if (this.carrito_data.cantidad <= this.producto.stock) {
+        let data = {
+          producto: this.producto._id,
+          cliente: localStorage.getItem('_id'),
+          cantidad: this.carrito_data.cantidad,
+          variedad: this.carrito_data.variedad,
+        };
+        this.btn_cart = true;
+        this._clienteService
+          .agregar_carrito_cliente(data, this.token)
+          .subscribe(
+            (res) => {
+              if (res.data == undefined) {
+                iziToast.show({
+                  title: 'ERROR',
+                  class: 'text-danger',
+                  titleColor: '#ff0000',
+                  position: 'topRight',
+                  message: 'El producto ya existe en el carrito.',
+                });
+                this.btn_cart = false;
+              } else {
+                console.log(res);
+
+                iziToast.show({
+                  title: 'SUCCESS',
+                  class: 'text-success',
+                  titleColor: '#1DC74C',
+                  position: 'topRight',
+                  message: 'Se agrego el producto al carrito.',
+                });
+                this.socket.emit('add-carrito-add', { data: true });
+                this.btn_cart = false;
+              }
+            },
+            (err) => {}
+          );
+      } else {
+        iziToast.show({
+          title: 'ERROR',
+          class: 'text-danger',
+          titleColor: '#ff0000',
+          position: 'topRight',
+          message: 'La máxima cantidad disponible es: ' + this.producto.stock,
+        });
+      }
+    } else {
+      iziToast.show({
+        title: 'ERROR',
+        class: 'text-danger',
+        titleColor: '#ff0000',
+        position: 'topRight',
+        message: 'Seleccione una variedad de producto.',
+      });
+    }
+  }
   reRender() {
     const event = new Event('resize');
     setTimeout(() => {
