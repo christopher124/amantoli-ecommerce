@@ -1,0 +1,65 @@
+/* ccs importado */
+html,
+body {
+
+}
+ 
+svg {
+  fill: #ffd055;
+}
+/************/
+.card2 {
+  display: flex;
+  position: relative;
+  width: 950px;
+  height: 600px; 
+  transition: 0.5s ease;
+  right: auto; 
+  left: auto;
+} 
+/* width 325px */
+.card__img2 {
+  position: relative;
+  width: 455px;
+  height: 100%;
+  background-image: linear-gradient(-120deg, #546dbe, #295a9b);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.canvas {
+  outline: none; border: none;
+  position: absolute; 
+  width: 500px;
+  min-height: 600px;
+  top: -25px; 
+  right: 10px; 
+  z-index: 1;
+}  
+.card__description2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 550px;
+  text-align: justify;
+  height: 100%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.card__rating2{ display: flex; }
+.card__price2{
+  width: 100%;
+  font-size: 45px;
+  text-align: right;
+}
+/* left para mover la carta de la derecha */
+.card__container2 {
+  outline: none; border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  top: -25px;
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  justify-content: center;
+  background-color: #ffffff;
+}
