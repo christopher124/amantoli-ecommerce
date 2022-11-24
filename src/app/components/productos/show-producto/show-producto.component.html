@@ -115,7 +115,7 @@
               <i class="sr-star cxi-star-filled active"></i>
               <i class="sr-star cxi-star"></i>
             </div>
-            <span class="font-size-sm text-muted">12 reviews</span>
+            <span class="font-size-sm text-muted">{{ reviews.length }}</span>
           </div>
         </div>
 
@@ -469,7 +469,7 @@
         <div class="row mb-sm-5 mb-4 pb-2 pb-md-4">
           <!-- Rating -->
           <div class="col-sm-5 mb-sm-0 mb-4">
-            <h3 class="h2 mb-3 pb-1">{{ reviews.length }} reviews</h3>
+            <h3 class="h2 mb-3 pb-1">{{ reviews.length }} Reseñas</h3>
             <div class="mt-n1 star-rating">
               <i
                 class="sr-star cxi-star-filled"
@@ -493,7 +493,7 @@
               ></i>
             </div>
             <span class="font-size-sm text-muted">
-              9 out of {{ reviews.length }} ({{ porcent_raiting }}%) <br />
+              {{ reviews.length }} ({{ porcent_raiting }}%) <br />
               Compradores satisfechos con el producto
             </span>
           </div>
