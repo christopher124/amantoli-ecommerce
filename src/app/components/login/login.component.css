@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --dark: #16191c;
     --dark-x: #1e2126;
     --light: #fff;
@@ -8,7 +8,7 @@
 /* .bg-amantoli{
     background-color: aqua;
 } */
-section{
+/* section{
      font-family: 'League Spartan', sans-serif;
      font-family: 'Noto Sans', sans-serif;
      font-weight: 300;
@@ -45,4 +45,30 @@ section{
 }
 .font-size{
     font-size: larger;
+}  */
+.login,
+.image {
+  min-height: 100vh;
+}
+
+/* .bg-image {
+  background-image: url('../../../assets/img/arte-login.jpg');
+  background-size: cover;
+  background-position: center center;
+} */
+/* .bg-image {
+  background-color: rgb(244,245,246);
+} */
+
+.bg-amantoli{
+ background-color: white;
+}
+.font-size{
+    font-size: larger;
+}
+.display-4{
+font-size: xx-large;
+}
+.img-l{
+   border-radius: 45px 0px 0px 45px;
 }

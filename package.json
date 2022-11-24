@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-three/core": "^6.0.0",
     "@angular/animations": "^14.2.0",
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
@@ -26,14 +27,17 @@
     "ng-starrating": "^1.0.20",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.5.3",
+    "three": "~0.142.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.2",
+    "@angular-three/schematics": "^6.0.1",
     "@angular/cli": "~14.2.2",
     "@angular/compiler-cli": "^14.2.0",
     "@types/jasmine": "~4.0.0",
+    "@types/three": "~0.142.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
