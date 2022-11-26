@@ -20,7 +20,7 @@
         <div
           class="d-flex align-items-center justify-content-between pb-2 mb-4"
         >
-          <h1 class="mb-0">Checkout</h1>
+          <h1 class="mb-0">Pagar</h1>
           <a [routerLink]="['/productos']"
             ><strong>Regresar a la tienda</strong></a
           >
@@ -199,7 +199,7 @@
         </ng-container>
 
         <!-- Adresses -->
-        <h2 class="h4 mb-4">2. Dirección de envio</h2>
+        <h2 class="h4 mb-4">2. Dirección de envío</h2>
         <div class="row pb-3">
           <div class="col-12">
             <div class="card">
@@ -212,7 +212,7 @@
                     <dl>
                       <dt>Destinatiario:</dt>
                       <dd>{{ direccion_principal.destinatario }}</dd>
-                      <dt>Direccíon:</dt>
+                      <dt>Dirección:</dt>
                       <dd>{{ direccion_principal.direccion }}</dd>
                       <dd>
                         {{ direccion_principal.pais }} -
@@ -239,7 +239,7 @@
         <hr class="mb-4 pb-2" />
 
         <!-- Shipping -->
-        <h2 class="h4 mb-4">3.Métodos de envió</h2>
+        <h2 class="h4 mb-4">3.Métodos de envío</h2>
         <div
           class="custom-control custom-radio mb-3"
           *ngFor="let item of envios"
@@ -420,7 +420,7 @@
         <!-- Additional info -->
         <h2 class="h4 mb-4">5. Información adicional (opcional)</h2>
         <div class="form-group">
-          <label for="ch-notes">Mensaje</label>
+          <label for="ch-notes">Mensaje:</label>
           <textarea
             id="ch-notes"
             class="form-control form-control-lg"
@@ -476,7 +476,7 @@
                   <span class="font-weight-bold">${{ subtotal }}</span>
                 </li>
                 <li class="d-flex justify-content-between mb-2">
-                  <span>Costo de envio:</span>
+                  <span>Costo de envío:</span>
                   <span>${{ envio_precio }}</span>
                 </li>
                 <li class="d-flex justify-content-between mb-2">
